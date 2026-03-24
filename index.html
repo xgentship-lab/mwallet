@@ -1,703 +1,556 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mWallet – Download</title>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f8f9fa;
-      --surface: #ffffff;
-      --surface2: #f1f3f4;
-      --border: #e0e0e0;
-      --text-primary: #202124;
-      --text-secondary: #5f6368;
-      --accent: #1a73e8;
-      --accent-green: #34a853;
-      --accent-yellow: #fbbc04;
-      --accent-red: #ea4335;
-      --install-btn: #01875f;
-      --install-hover: #017350;
-      --shadow-1: 0 1px 3px rgba(0,0,0,.12), 0 1px 2px rgba(0,0,0,.08);
-      --shadow-2: 0 4px 12px rgba(0,0,0,.1), 0 2px 6px rgba(0,0,0,.06);
-      --shadow-3: 0 8px 24px rgba(0,0,0,.12);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mWallet — Your Digital Wallet</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:     #0b0f1a;
+  --ink2:    #3d4254;
+  --ink3:    #8b91a7;
+  --paper:   #f5f6fa;
+  --white:   #ffffff;
+  --teal:    #00c9a7;
+  --teal2:   #00a389;
+  --gold:    #f9c846;
+  --card-bg: #ffffff;
+  --border:  rgba(0,0,0,0.08);
+  --shadow:  0 4px 24px rgba(11,15,26,0.08);
+  --shadow2: 0 12px 48px rgba(11,15,26,0.14);
+}
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      font-family: 'Google Sans', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      min-height: 100vh;
-    }
+html { scroll-behavior: smooth; }
 
-    /* TOP BAR */
-    .topbar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-1);
-    }
-    .topbar-logo {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -.3px;
-    }
-    .topbar-logo span { color: var(--accent); }
-    .topbar-logo .dot1 { color: #ea4335; }
-    .topbar-logo .dot2 { color: #fbbc04; }
-    .topbar-logo .dot3 { color: #34a853; }
-    .topbar-logo .dot4 { color: #1a73e8; }
-    .topbar-spacer { flex: 1; }
-    .topbar-search {
-      background: var(--surface2);
-      border: none;
-      border-radius: 24px;
-      padding: 8px 18px;
-      width: 220px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      outline: none;
-      font-family: inherit;
-    }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-    /* MAIN CONTENT */
-    .page {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 24px 16px 60px;
-    }
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(245,246,250,0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Sora', sans-serif;
+  font-size: 20px; font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+.nav-logo-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--teal);
+  display: inline-block;
+}
+.nav-pill {
+  background: var(--ink);
+  color: var(--white);
+  font-family: 'Sora', sans-serif;
+  font-size: 13px; font-weight: 600;
+  padding: 8px 20px; border-radius: 100px;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  transition: background 0.2s, transform 0.15s;
+  border: none; cursor: pointer;
+}
+.nav-pill:hover { background: var(--teal2); transform: translateY(-1px); }
 
-    /* HERO CARD */
-    .hero-card {
-      background: var(--surface);
-      border-radius: 16px;
-      padding: 28px 28px 24px;
-      box-shadow: var(--shadow-2);
-      margin-bottom: 20px;
-      animation: fadeUp .45s ease both;
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+/* ── HERO ── */
+.hero {
+  padding: 140px 32px 80px;
+  max-width: 1000px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.hero-left { animation: fadeUp 0.6s ease both; }
+.hero-right { animation: fadeUp 0.6s ease 0.15s both; }
 
-    .hero-top {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
-    .app-icon {
-      width: 96px;
-      height: 96px;
-      border-radius: 22px;
-      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 40px;
-      flex-shrink: 0;
-      box-shadow: 0 4px 16px rgba(0,0,0,.18);
-      position: relative;
-      overflow: hidden;
-    }
-    .app-icon::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(145deg, rgba(255,255,255,.15) 0%, transparent 60%);
-      border-radius: inherit;
-    }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-    .hero-info { flex: 1; }
-    .app-name {
-      font-family: 'Google Sans Display', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: -.4px;
-      line-height: 1.1;
-      color: var(--text-primary);
-    }
-    .app-dev {
-      font-size: 13px;
-      color: var(--accent);
-      margin-top: 5px;
-      font-weight: 500;
-    }
-    .app-dev span {
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .verified-icon { color: var(--accent); font-size: 13px; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,201,167,0.1);
+  border: 1px solid rgba(0,201,167,0.25);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 12px; font-weight: 500;
+  color: var(--teal2);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero-eyebrow-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform: scale(1); }
+  50% { opacity:0.5; transform: scale(0.7); }
+}
 
-    .app-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 10px;
-    }
-    .tag {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 3px 11px;
-      font-size: 12px;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
+h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+h1 em {
+  font-style: normal;
+  color: var(--teal);
+}
 
-    /* STATS ROW */
-    .stats-row {
-      display: flex;
-      gap: 0;
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-    }
-    .stat-item {
-      flex: 1;
-      text-align: center;
-      position: relative;
-    }
-    .stat-item + .stat-item::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 10%; height: 80%;
-      width: 1px;
-      background: var(--border);
-    }
-    .stat-value {
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.2;
-    }
-    .stat-sub {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-top: 3px;
-    }
-    .star-icon { color: var(--accent-yellow); font-size: 14px; }
+.hero-desc {
+  font-size: 17px;
+  color: var(--ink2);
+  line-height: 1.7;
+  font-weight: 300;
+  margin-bottom: 36px;
+  max-width: 440px;
+}
 
-    /* RATING BAR */
-    .rating-stars {
-      display: flex;
-      gap: 2px;
-      justify-content: center;
-      margin-bottom: 3px;
-    }
-    .star-filled { color: var(--accent-yellow); }
-    .star-half { color: var(--accent-yellow); }
-    .star-empty { color: #dadce0; }
+.download-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--ink);
+  color: var(--white);
+  text-decoration: none;
+  font-family: 'Sora', sans-serif;
+  font-size: 15px; font-weight: 600;
+  padding: 16px 28px;
+  border-radius: 14px;
+  border: none; cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: -0.2px;
+  box-shadow: 0 8px 24px rgba(11,15,26,0.2);
+}
+.download-btn:hover {
+  background: var(--teal2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,163,137,0.35);
+}
+.download-btn svg { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
 
-    /* INSTALL SECTION */
-    .install-section {
-      margin-top: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .btn-install {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: var(--install-btn);
-      color: white;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: 'Google Sans', sans-serif;
-      padding: 14px 24px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      transition: all .2s ease;
-      box-shadow: 0 2px 8px rgba(1,135,95,.35);
-      letter-spacing: .2px;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-install::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,.12) 0%, transparent 60%);
-    }
-    .btn-install:hover {
-      background: var(--install-hover);
-      box-shadow: 0 4px 16px rgba(1,135,95,.45);
-      transform: translateY(-1px);
-    }
-    .btn-install:active { transform: translateY(0); }
-    .btn-install .dl-icon { font-size: 18px; }
+.hero-sub {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: var(--ink3);
+}
+.hero-sub svg { width: 14px; height: 14px; fill: #f9c846; }
 
-    .btn-wishlist {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: transparent;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 600;
-      font-family: 'Google Sans', sans-serif;
-      padding: 11px 20px;
-      border-radius: 12px;
-      border: 1.5px solid var(--accent);
-      cursor: pointer;
-      transition: all .2s ease;
-    }
-    .btn-wishlist:hover { background: rgba(26,115,232,.06); }
+/* ── HERO CARD ── */
+.app-card {
+  background: var(--white);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: var(--shadow2);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.app-card::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(0,201,167,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.card-icon-row {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+}
+.card-icon {
+  width: 72px; height: 72px;
+  border-radius: 18px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.card-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card-name {
+  font-family: 'Sora', sans-serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--ink); letter-spacing: -0.3px;
+}
+.card-dev { font-size: 13px; color: var(--ink3); margin-top: 3px; }
 
-    .install-note {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      background: #fff8e1;
-      border: 1px solid #ffe082;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 12.5px;
-      color: #7a5c00;
-      font-weight: 500;
-    }
-    .install-note .warn-icon { font-size: 16px; flex-shrink: 0; }
+.card-stats {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.stat {
+  background: var(--white);
+  padding: 16px 12px;
+  text-align: center;
+}
+.stat-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--ink); line-height: 1;
+  margin-bottom: 4px;
+  display: flex; align-items: center; justify-content: center; gap: 3px;
+}
+.stat-val svg { width: 14px; height: 14px; fill: var(--gold); }
+.stat-lbl { font-size: 11px; color: var(--ink3); font-weight: 400; }
 
-    /* SCREENSHOTS */
-    .section-card {
-      background: var(--surface);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: var(--shadow-2);
-      margin-bottom: 20px;
-      animation: fadeUp .5s ease both;
-      animation-delay: .1s;
-    }
-    .section-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ctag {
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 12px;
+  font-size: 12px; color: var(--ink2);
+  font-weight: 400;
+}
 
-    .screenshots-row {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      scrollbar-width: none;
-    }
-    .screenshots-row::-webkit-scrollbar { display: none; }
-    .screenshot {
-      flex-shrink: 0;
-      width: 150px;
-      height: 270px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #0f2027, #2c5364);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      color: rgba(255,255,255,.4);
-      position: relative;
-      overflow: hidden;
-      transition: transform .2s;
-      cursor: pointer;
-    }
-    .screenshot:hover { transform: scale(1.03); }
-    .screenshot .scr-label {
-      position: absolute;
-      bottom: 12px;
-      left: 0; right: 0;
-      text-align: center;
-      font-size: 11px;
-      color: rgba(255,255,255,.6);
-      font-weight: 500;
-    }
-    .screenshot::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,.07) 0%, transparent 50%, rgba(0,0,0,.2) 100%);
-    }
-    .scr-1 { background: linear-gradient(145deg, #1a1a2e, #16213e, #0f3460); }
-    .scr-2 { background: linear-gradient(145deg, #0f2027, #203a43, #2c5364); }
-    .scr-3 { background: linear-gradient(145deg, #141e30, #243b55, #1a4060); }
-    .scr-4 { background: linear-gradient(145deg, #0d1b2a, #1b262c, #0a3d62); }
+/* ── SECTION ── */
+.section {
+  max-width: 1000px; margin: 0 auto;
+  padding: 0 32px 80px;
+}
+.section-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: var(--ink3); letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.section-heading {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800; letter-spacing: -0.8px;
+  color: var(--ink);
+  margin-bottom: 40px;
+  line-height: 1.2;
+}
 
-    /* ABOUT */
-    .about-text {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.65;
-    }
-    .about-text strong { color: var(--text-primary); }
+/* ── FEATURES ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.feature-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-3px);
+}
+.feature-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+.fi-teal { background: rgba(0,201,167,0.1); }
+.fi-gold { background: rgba(249,200,70,0.12); }
+.fi-blue { background: rgba(82,130,255,0.1); }
+.fi-rose { background: rgba(255,100,130,0.1); }
+.feature-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: var(--ink); margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+.feature-desc {
+  font-size: 14px; color: var(--ink2);
+  line-height: 1.6; font-weight: 300;
+}
 
-    /* FEATURES GRID */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      margin-top: 16px;
-    }
-    .feature-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 14px;
-      background: var(--surface2);
-      border-radius: 12px;
-    }
-    .feature-icon {
-      font-size: 20px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .feature-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .feature-desc {
-      font-size: 12px;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
+/* ── INSTALL ── */
+.install-block {
+  background: var(--ink);
+  border-radius: 28px;
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.install-block::before {
+  content: '';
+  position: absolute;
+  bottom: -80px; right: -80px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(0,201,167,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.install-block::after {
+  content: '';
+  position: absolute;
+  top: -60px; left: 20%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(249,200,70,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.install-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 12px;
+}
+.install-heading {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800; letter-spacing: -0.8px;
+  color: var(--white); margin-bottom: 12px; line-height: 1.2;
+}
+.install-sub {
+  font-size: 14px; color: rgba(255,255,255,0.5);
+  line-height: 1.6; font-weight: 300;
+  max-width: 420px;
+}
+.install-right { flex-shrink: 0; text-align: right; }
+.install-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--teal);
+  color: var(--ink);
+  text-decoration: none;
+  font-family: 'Sora', sans-serif;
+  font-size: 15px; font-weight: 700;
+  padding: 16px 28px;
+  border-radius: 14px;
+  border: none; cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0,201,167,0.3);
+}
+.install-btn:hover {
+  background: #00e8c0;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,201,167,0.5);
+}
+.install-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.install-warn {
+  margin-top: 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  display: flex; align-items: center; gap: 6px;
+  justify-content: flex-end;
+}
+.install-warn strong { color: rgba(255,255,255,0.55); }
 
-    /* RATINGS */
-    .rating-big {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      margin-bottom: 16px;
-    }
-    .rating-score {
-      font-size: 56px;
-      font-weight: 700;
-      line-height: 1;
-      color: var(--text-primary);
-      font-family: 'Google Sans Display', sans-serif;
-    }
-    .rating-right { flex: 1; }
-    .rating-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-    .rating-bar-label { font-size: 11px; color: var(--text-secondary); width: 8px; }
-    .rating-bar-track {
-      flex: 1;
-      height: 6px;
-      background: var(--surface2);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .rating-bar-fill {
-      height: 100%;
-      background: var(--accent-green);
-      border-radius: 99px;
-      transition: width .8s ease;
-    }
-    .rating-count { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+/* ── INFO GRID ── */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 48px;
+}
+.info-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+.info-card-lbl { font-size: 11px; color: var(--ink3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.info-card-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--ink); letter-spacing: -0.3px;
+}
 
-    /* APP INFO TABLE */
-    .info-table { width: 100%; }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 11px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13.5px;
-    }
-    .info-row:last-child { border-bottom: none; }
-    .info-label { color: var(--text-secondary); }
-    .info-value { font-weight: 600; color: var(--text-primary); text-align: right; }
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink3);
+}
+footer a { color: var(--teal2); text-decoration: none; }
 
-    /* BOTTOM CTA */
-    .bottom-cta {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(255,255,255,.96);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid var(--border);
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 -4px 16px rgba(0,0,0,.08);
-      z-index: 99;
-    }
-    .bottom-app-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #0f2027, #2c5364);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-    .bottom-app-name { font-size: 14px; font-weight: 700; }
-    .bottom-app-dev { font-size: 12px; color: var(--text-secondary); }
-    .bottom-spacer { flex: 1; }
-    .bottom-btn {
-      background: var(--install-btn);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      padding: 11px 22px;
-      font-size: 14px;
-      font-weight: 700;
-      font-family: 'Google Sans', sans-serif;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all .2s;
-      white-space: nowrap;
-    }
-    .bottom-btn:hover { background: var(--install-hover); }
-
-    /* BADGE */
-    .badge-row {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
-    .badge {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .badge-green { background: #e6f4ea; color: #137333; }
-    .badge-blue  { background: #e8f0fe; color: #1558d6; }
-    .badge-yellow{ background: #fef7e0; color: #865701; }
-
-    /* PROGRESS ANIMATION */
-    @keyframes progressAnim {
-      from { width: 0; }
-    }
-    .rating-bar-fill { animation: progressAnim .9s ease forwards; }
-
-    @media (max-width: 600px) {
-      .features-grid { grid-template-columns: 1fr; }
-      .topbar-search { display: none; }
-      .hero-top { gap: 14px; }
-      .app-icon { width: 80px; height: 80px; font-size: 32px; border-radius: 18px; }
-      .app-name { font-size: 22px; }
-      .rating-score { font-size: 44px; }
-    }
-  </style>
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  nav { padding: 0 16px; }
+  .hero { grid-template-columns: 1fr; gap: 40px; padding: 100px 16px 60px; }
+  .section { padding: 0 16px 60px; }
+  .features-grid { grid-template-columns: 1fr; }
+  .install-block { grid-template-columns: 1fr; padding: 32px 24px; }
+  .install-right { text-align: left; }
+  .install-warn { justify-content: flex-start; }
+  .info-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div class="topbar-logo">
-    <span class="dot1">G</span><span class="dot2">o</span><span class="dot3">o</span><span class="dot4">g</span><span style="color:#ea4335">l</span><span style="color:#34a853">e</span>&nbsp;Play
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="nav-logo-dot"></span>
+    mWallet
+  </a>
+  <a class="nav-pill" href="https://github.com/xgentship-lab/mwallet/blob/main/mwallet.apk" download>Download APK</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Now Available — Free
+    </div>
+    <h1>Your money,<br><em>smarter</em> &amp; faster.</h1>
+    <p class="hero-desc">mWallet gives you instant transfers, real-time balance tracking, and bank-grade security — all packed into an 18&nbsp;MB app that works even offline.</p>
+    <a class="download-btn" href="https://github.com/xgentship-lab/mwallet/blob/main/mwallet.apk" download>
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-14 9v2h14v-2H5z"/></svg>
+      Download APK
+    </a>
+    <div class="hero-sub">
+      <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      &nbsp;4.6 · 12,000+ reviews
+    </div>
   </div>
-  <div class="topbar-spacer"></div>
-  <input class="topbar-search" placeholder="🔍  Search apps & games" readonly>
-</div>
 
-<!-- MAIN PAGE -->
-<div class="page">
-
-  <!-- HERO CARD -->
-  <div class="hero-card">
-    <div class="hero-top">
-      <div class="app-icon">💳</div>
-      <div class="hero-info">
-        <div class="app-name">mWallet</div>
-        <div class="app-dev">
-          <span>xgentship-lab <span class="verified-icon">✔</span></span>
+  <div class="hero-right">
+    <div class="app-card">
+      <div class="card-icon-row">
+        <div class="card-icon">
+          <img src="data:image/png;base64,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" alt="mWallet">
         </div>
-        <div class="badge-row">
-          <div class="badge badge-green">✔ Verified</div>
-          <div class="badge badge-blue">💳 Finance</div>
-          <div class="badge badge-yellow">⚡ Lite</div>
+        <div>
+          <div class="card-name">mWallet</div>
+          <div class="card-dev">by xgentship-lab</div>
         </div>
-        <div class="app-tags" style="margin-top:10px;">
-          <span class="tag">Finance</span>
-          <span class="tag">Wallet</span>
-          <span class="tag">Payments</span>
-          <span class="tag">Offline</span>
+      </div>
+      <div class="card-stats">
+        <div class="stat">
+          <div class="stat-val">4.6 <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+          <div class="stat-lbl">Rating</div>
         </div>
+        <div class="stat">
+          <div class="stat-val">500K+</div>
+          <div class="stat-lbl">Downloads</div>
+        </div>
+        <div class="stat">
+          <div class="stat-val">18 MB</div>
+          <div class="stat-lbl">Size</div>
+        </div>
+      </div>
+      <div class="card-tags">
+        <span class="ctag">Finance</span>
+        <span class="ctag">Android 5.0+</span>
+        <span class="ctag">Offline</span>
+        <span class="ctag">Free</span>
+        <span class="ctag">Rated 3+</span>
       </div>
     </div>
+  </div>
+</section>
 
-    <!-- STATS -->
-    <div class="stats-row">
-      <div class="stat-item">
-        <div class="rating-stars">
-          <span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-filled">★</span><span class="star-half">½</span>
-        </div>
-        <div class="stat-value">4.6</div>
-        <div class="stat-sub">12K reviews</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">500K+</div>
-        <div class="stat-sub">Downloads</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">18 MB</div>
-        <div class="stat-sub">Size</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-value">3+</div>
-        <div class="stat-sub">Rated</div>
-      </div>
+<!-- FEATURES -->
+<section class="section">
+  <div class="section-label">What's inside</div>
+  <div class="section-heading">Everything you need,<br>nothing you don't.</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon fi-teal">⚡</div>
+      <div class="feature-title">Instant Transfers</div>
+      <div class="feature-desc">Send and receive money in seconds, no bank delays or hidden fees.</div>
     </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-gold">🔒</div>
+      <div class="feature-title">Bank-Grade Security</div>
+      <div class="feature-desc">256-bit AES encryption keeps your funds and data completely protected.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-blue">📊</div>
+      <div class="feature-title">Spending Insights</div>
+      <div class="feature-desc">Visual breakdowns of your spending so you always know where your money goes.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon fi-rose">📶</div>
+      <div class="feature-title">Works Offline</div>
+      <div class="feature-desc">Low connectivity? No problem. Core features work without an internet connection.</div>
+    </div>
+  </div>
+</section>
 
-    <!-- INSTALL -->
-    <div class="install-section">
-      <a class="btn-install" href="https://github.com/xgentship-lab/mwallet/blob/main/mwallet.apk" download>
-        <span class="dl-icon">⬇</span> Download APK  <span style="opacity:.75;font-size:13px;font-weight:400;">· Free</span>
+<!-- INSTALL CTA -->
+<section class="section">
+  <div class="install-block">
+    <div>
+      <div class="install-label">Free Download</div>
+      <div class="install-heading">Ready to get started?</div>
+      <div class="install-sub">Download the APK directly — no account needed to install. Just tap and go.</div>
+    </div>
+    <div class="install-right">
+      <a class="install-btn" href="https://github.com/xgentship-lab/mwallet/blob/main/mwallet.apk" download>
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zm-14 9v2h14v-2H5z"/></svg>
+        Download APK
       </a>
-      <div class="install-note">
-        <span class="warn-icon">⚠️</span>
-        Enable <strong>"Install from Unknown Sources"</strong> in Settings → Security before installing this APK.
-      </div>
+      <div class="install-warn">⚠ Enable <strong>Install from Unknown Sources</strong> in Settings first.</div>
     </div>
   </div>
 
-  <!-- SCREENSHOTS -->
-  <div class="section-card">
-    <div class="section-title">Screenshots</div>
-    <div class="screenshots-row">
-      <div class="screenshot scr-1">💳<div class="scr-label">Dashboard</div></div>
-      <div class="screenshot scr-2">💸<div class="scr-label">Send Money</div></div>
-      <div class="screenshot scr-3">📊<div class="scr-label">Analytics</div></div>
-      <div class="screenshot scr-4">🔒<div class="scr-label">Security</div></div>
-      <div class="screenshot scr-1">📋<div class="scr-label">History</div></div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-card-lbl">Version</div>
+      <div class="info-card-val">1.0.0</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-lbl">Size</div>
+      <div class="info-card-val">18 MB</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-lbl">Requires</div>
+      <div class="info-card-val">Android 5+</div>
+    </div>
+    <div class="info-card">
+      <div class="info-card-lbl">Updated</div>
+      <div class="info-card-val">Mar 2026</div>
     </div>
   </div>
+</section>
 
-  <!-- ABOUT -->
-  <div class="section-card" style="animation-delay:.15s">
-    <div class="section-title">About this app</div>
-    <div class="about-text">
-      <strong>mWallet</strong> is a fast, secure, and lightweight digital wallet designed for seamless everyday transactions. Manage your funds, track spending, and send money instantly — all from one beautifully simple app.
-      <br><br>Built for speed and privacy, mWallet works even in low-connectivity environments, making it perfect for everyone.
-    </div>
-    <div class="features-grid">
-      <div class="feature-item">
-        <div class="feature-icon">⚡</div>
-        <div>
-          <div class="feature-name">Instant Transfers</div>
-          <div class="feature-desc">Send & receive in seconds</div>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">🔒</div>
-        <div>
-          <div class="feature-name">Bank-Grade Security</div>
-          <div class="feature-desc">256-bit AES encryption</div>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">📊</div>
-        <div>
-          <div class="feature-name">Spending Insights</div>
-          <div class="feature-desc">Visual analytics dashboard</div>
-        </div>
-      </div>
-      <div class="feature-item">
-        <div class="feature-icon">📶</div>
-        <div>
-          <div class="feature-name">Works Offline</div>
-          <div class="feature-desc">No internet? No problem.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RATINGS -->
-  <div class="section-card" style="animation-delay:.2s">
-    <div class="section-title">Ratings &amp; Reviews</div>
-    <div class="rating-big">
-      <div class="rating-score">4.6</div>
-      <div class="rating-right">
-        <div class="rating-bar-row">
-          <div class="rating-bar-label">5</div>
-          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:72%"></div></div>
-        </div>
-        <div class="rating-bar-row">
-          <div class="rating-bar-label">4</div>
-          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:18%"></div></div>
-        </div>
-        <div class="rating-bar-row">
-          <div class="rating-bar-label">3</div>
-          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:6%; background:#fbbc04"></div></div>
-        </div>
-        <div class="rating-bar-row">
-          <div class="rating-bar-label">2</div>
-          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:2%; background:#ea4335"></div></div>
-        </div>
-        <div class="rating-bar-row">
-          <div class="rating-bar-label">1</div>
-          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:2%; background:#ea4335"></div></div>
-        </div>
-        <div class="rating-count">12,483 ratings</div>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <span class="tag">💸 Easy to use</span>
-      <span class="tag">🔒 Feels secure</span>
-      <span class="tag">⚡ Fast</span>
-      <span class="tag">👌 Clean UI</span>
-    </div>
-  </div>
-
-  <!-- APP INFO -->
-  <div class="section-card" style="animation-delay:.25s">
-    <div class="section-title">App info</div>
-    <div class="info-table">
-      <div class="info-row"><span class="info-label">Version</span><span class="info-value">1.0.0</span></div>
-      <div class="info-row"><span class="info-label">Updated</span><span class="info-value">March 2026</span></div>
-      <div class="info-row"><span class="info-label">Size</span><span class="info-value">18 MB</span></div>
-      <div class="info-row"><span class="info-label">Requires Android</span><span class="info-value">5.0+</span></div>
-      <div class="info-row"><span class="info-label">Downloads</span><span class="info-value">500,000+</span></div>
-      <div class="info-row"><span class="info-label">Content Rating</span><span class="info-value">Rated 3+</span></div>
-      <div class="info-row"><span class="info-label">Developer</span><span class="info-value">xgentship-lab</span></div>
-    </div>
-  </div>
-
-</div>
-
-<!-- STICKY BOTTOM CTA -->
-<div class="bottom-cta">
-  <div class="bottom-app-icon">💳</div>
-  <div>
-    <div class="bottom-app-name">mWallet</div>
-    <div class="bottom-app-dev">Free · 18 MB</div>
-  </div>
-  <div class="bottom-spacer"></div>
-  <a class="bottom-btn" href="https://github.com/xgentship-lab/mwallet/blob/main/mwallet.apk" download>⬇ Download APK</a>
-</div>
+<footer>
+  Built by <a href="https://github.com/xgentship-lab">xgentship-lab</a> &nbsp;·&nbsp; mWallet v1.0.0 &nbsp;·&nbsp; Free &amp; Open Source
+</footer>
 
 </body>
 </html>
